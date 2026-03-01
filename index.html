@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>DASHBOARD TRANSPARANSI KEUANGAN</title>
   <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRme20nsXGhj8WZdWW8SQc9_le1K6G9ewL13w&s" />
   <style>
@@ -11,40 +11,31 @@
       padding: 0;
       width: 100%;
       height: 100%;
-      background-color: #eee;
-      overflow: hidden; /* Mencegah scroll ganda */
-    }
-
-    .iframe-container {
-      width: 100%;
-      height: 100dvh; /* Menggunakan dvh agar pas di mobile browser */
+      background-color: #f8fafc;
       overflow: hidden;
     }
-
+    .iframe-container {
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+    }
     iframe {
-      display: block;
       width: 100%;
       height: 100%;
       border: none;
+      display: block;
     }
   </style>
 </head>
 <body>
   <div class="iframe-container">
-<iframe 
-src="https://script.google.com/macros/s/AKfycby7jMFJAxVP9moOHNLG3B01mAytlV3bQZ66F3qxlQmQ5kaSxefVapT8NkVPJFc2pjWz/exec" 
-      scrolling="yes"
-      allowfullscreen="true"
-      webkitallowfullscreen="true"
-      mozallowfullscreen="true"
-      allow="fullscreen; clipboard-write; share; camera; microphone; display-capture; geolocation;">
+    <iframe 
+      src="https://script.google.com/macros/s/AKfycby7jMFJAxVP9moOHNLG3B01mAytlV3bQZ66F3qxlQmQ5kaSxefVapT8NkVPJFc2pjWz/exec" 
+      allow="clipboard-write; share; fullscreen"
+      sandbox="allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-scripts allow-same-origin"
+      scrolling="yes">
     </iframe>
   </div>
 </body>
 </html>
-
-
-
-
-
-
