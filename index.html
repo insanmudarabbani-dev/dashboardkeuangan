@@ -1,154 +1,41 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Laporan Keuangan Pesantren Ibnu Abbas</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>DASHBOARD TRANSPARANSI KEUANGAN</title>
+  <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRme20nsXGhj8WZdWW8SQc9_le1K6G9ewL13w&s" />
   <style>
-    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #f8fafc;
+      overflow: hidden;
+    }
+    .iframe-container {
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen">
-
-  <div class="max-w-6xl mx-auto px-4 py-8">
-    <!-- Header -->
-    <div class="mb-8 text-center sm:text-left border-b pb-6">
-      <h1 class="text-3xl font-bold text-slate-900">Laporan Keuangan Pesantren</h1>
-      <p class="text-slate-500 mt-1">Transparansi Dana & Rekapitulasi Transaksi Ibnu Abbas</p>
-    </div>
-
-    <!-- Indicator Loading -->
-    <div id="loading" class="flex flex-col items-center justify-center py-12">
-      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mb-4"></div>
-      <p class="text-slate-600 font-medium">Memuat data transaksi dari server...</p>
-    </div>
-
-    <!-- Content Utama -->
-    <div id="content" class="hidden space-y-8">
-      
-      <!-- Cards Summary -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-          <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Pemasukan</span>
-          <p id="totalMasuk" class="text-2xl font-bold text-emerald-600 mt-2">Rp 0</p>
-        </div>
-        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-          <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Pengeluaran</span>
-          <p id="totalKeluar" class="text-2xl font-bold text-rose-600 mt-2">Rp 0</p>
-        </div>
-        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-          <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Saldo Akhir</span>
-          <p id="saldo" class="text-2xl font-bold text-indigo-600 mt-2">Rp 0</p>
-        </div>
-      </div>
-
-      <!-- Tabel Riwayat -->
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-        <div class="p-6 border-b border-slate-100">
-          <h2 class="text-lg font-bold text-slate-800">Riwayat Transaksi</h2>
-        </div>
-        <div class="overflow-x-auto">
-          <table class="w-full text-left border-collapse text-sm">
-            <thead>
-              <tr class="bg-slate-50 border-b border-slate-100 text-slate-500 font-semibold uppercase text-[11px] tracking-wider">
-                <th class="py-3.5 px-6">ID & Tanggal</th>
-                <th class="py-3.5 px-6">Keterangan</th>
-                <th class="py-3.5 px-6">Kategori</th>
-                <th class="py-3.5 px-6">Jenis</th>
-                <th class="py-3.5 px-6 text-right">Jumlah</th>
-                <th class="py-3.5 px-6 text-center">Bukti</th>
-              </tr>
-            </thead>
-            <tbody id="tabelRiwayat" class="divide-y divide-slate-100">
-              <!-- Data dimasukkan via Javascript -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-    </div>
+<body>
+  <div class="iframe-container">
+    <iframe 
+      src="https://script.google.com/macros/s/AKfycby7jMFJAxVP9moOHNLG3B01mAytlV3bQZ66F3qxlQmQ5kaSxefVapT8NkVPJFc2pjWz/exec" 
+      allow="clipboard-write; share; fullscreen"
+      sandbox="allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-scripts allow-same-origin"
+      scrolling="yes">
+    </iframe>
   </div>
-
-  <script>
-    // MASUKKAN URL GOOGLE APPS SCRIPT ANDA DI SINI
-    const API_URL = "https://script.google.com/macros/s/AKfycbwXK9af3TMWXa_H--8_nTnESrmQR-4B-07SvORZVT4bc3buKErGEkofNbEEMHui6QVA/exec";
-
-    async function fetchData() {
-      try {
-        const res = await fetch(API_URL);
-        const data = await res.json();
-
-        let listRiwayat = Array.isArray(data) ? data : (data.riwayat || []);
-        
-        let totalMasuk = 0;
-        let totalKeluar = 0;
-
-        // Render Tabel Data
-        const tbody = document.getElementById('tabelRiwayat');
-        tbody.innerHTML = '';
-
-        listRiwayat.forEach(item => {
-          const jumlah = parseFloat(item.jumlah) || 0;
-          const isMasuk = String(item.jenis).toLowerCase() === 'pemasukan';
-
-          if (isMasuk) totalMasuk += jumlah;
-          else totalKeluar += jumlah;
-
-          const tr = document.createElement('tr');
-          tr.className = "hover:bg-slate-50/80 transition";
-          
-          tr.innerHTML = `
-            <td class="py-4 px-6 whitespace-nowrap">
-              <div class="font-bold text-slate-800">${item.id || '-'}</div>
-              <div class="text-xs text-slate-400">${item.tanggal || '-'}</div>
-            </td>
-            <td class="py-4 px-6 font-medium text-slate-700">${item.keterangan || '-'}</td>
-            <td class="py-4 px-6 whitespace-nowrap">
-              <span class="bg-slate-100 text-slate-600 px-2.5 py-1 rounded-lg text-xs font-semibold">${item.kategori || '-'}</span>
-            </td>
-            <td class="py-4 px-6 whitespace-nowrap">
-              <span class="${isMasuk ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-rose-50 text-rose-700 border-rose-200'} border px-2.5 py-1 rounded-lg text-xs font-semibold">
-                ${item.jenis}
-              </span>
-            </td>
-            <td class="py-4 px-6 text-right font-bold whitespace-nowrap ${isMasuk ? 'text-emerald-600' : 'text-rose-600'}">
-              ${isMasuk ? '+' : '-'} Rp ${jumlah.toLocaleString('id-ID')}
-            </td>
-            <td class="py-4 px-6 text-center whitespace-nowrap">
-              ${item.bukti && item.bukti !== '-' 
-                ? `<a href="${item.bukti}" target="_blank" class="text-indigo-600 hover:text-indigo-800 font-semibold text-xs bg-indigo-50 px-3 py-1.5 rounded-lg border border-indigo-100 inline-block">Lihat Bukti</a>`
-                : `<span class="text-slate-400 text-xs">-</span>`}
-            </td>
-          `;
-          tbody.appendChild(tr);
-        });
-
-        // Hitung Saldo
-        const saldo = totalMasuk - totalKeluar;
-
-        // Pasang di Card
-        document.getElementById('totalMasuk').innerText = "Rp " + totalMasuk.toLocaleString('id-ID');
-        document.getElementById('totalKeluar').innerText = "Rp " + totalKeluar.toLocaleString('id-ID');
-        document.getElementById('saldo').innerText = "Rp " + saldo.toLocaleString('id-ID');
-
-        // Tampilkan halaman
-        document.getElementById('loading').classList.add('hidden');
-        document.getElementById('content').classList.remove('hidden');
-
-      } catch (err) {
-        console.error("Gagal Render:", err);
-        document.getElementById('loading').innerHTML = `
-          <div class="bg-rose-100 text-rose-700 p-4 rounded-xl text-center">
-            <p class="font-bold">Gagal Mengambil Data!</p>
-            <p class="text-xs mt-1">${err.message}</p>
-          </div>
-        `;
-      }
-    }
-
-    fetchData();
-  </script>
 </body>
 </html>
